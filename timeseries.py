@@ -14,9 +14,12 @@ ObjectId = 7
 Meldedatum = 8
 LandkreisID = 9
 
-
-urllib.request.urlretrieve("https://opendata.arcgis.com/datasets/dd4580c810204019a7b8eb3e0b329dd6_0.csv", "RKI_COVID19.csv")
-
+print("Lade neue Tabelle herunter...")
+try:
+    urllib.request.urlretrieve("https://opendata.arcgis.com/datasets/dd4580c810204019a7b8eb3e0b329dd6_0.csv", "RKI_COVID19.csv")
+except Exception as e:
+    print(e)
+print("Erfolgreich")
 vdatum = dateutil.parser.parse("2020-04-24T00:00:00.000Z")
 
 summe = 0
