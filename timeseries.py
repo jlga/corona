@@ -1,4 +1,5 @@
 import dateutil.parser
+import datetime
 import urllib.request
 
 #Spaltennamen:
@@ -51,7 +52,7 @@ with open(".\\output\\covidLK_timeseries.csv", "w+") as f:
     for tag in sorted(tage):
         for k_Landkreis in lks:
             LK_summen[k_Landkreis] += lks[k_Landkreis].get(tag, 0)
-        dieses_datum = dateutil.parser.parse(tag)
+        dieses_datum = dateutil.parser.parse(tag) + datetime.timedelta(days=1) #plus ein Tag, da das RKI immer um 0:00 die Summer erechnet, damit ist man gleichauf
         f.write(dieses_datum.strftime("%Y-%m-%d %H:%M:%S"))
         for lk in alleLKs:
             f.write(";" + str(LK_summen[lk]))
