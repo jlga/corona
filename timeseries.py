@@ -1,4 +1,5 @@
 import dateutil.parser
+import urllib.request
 
 #Spaltennamen:
 IdBundesland = 0
@@ -12,6 +13,8 @@ ObjectId = 7
 Meldedatum = 8
 LandkreisID = 9
 
+
+urllib.request.urlretrieve("https://opendata.arcgis.com/datasets/dd4580c810204019a7b8eb3e0b329dd6_0.csv", "RKI_COVID19.csv")
 
 vdatum = dateutil.parser.parse("2020-04-24T00:00:00.000Z")
 
@@ -48,8 +51,10 @@ with open(".\\output\\covidLK_timeseries.csv", "w+") as f:
     for tag in sorted(tage):
         for k_Landkreis in lks:
             LK_summen[k_Landkreis] += lks[k_Landkreis].get(tag, 0)
-        f.write(dateutil.parser.parse(tag).strftime("%Y-%m-%d %H:%M:%S"))
+        dieses_datum = dateutil.parser.parse(tag)
+        f.write(dieses_datum.strftime("%Y-%m-%d %H:%M:%S"))
         for lk in alleLKs:
             f.write(";" + str(LK_summen[lk]))
         f.write("\n")
+        print(dieses_datum.strftime("%d.%m.%Y:"), sum(LK_summen.values()))
 print("Gesamte Fälle:", sum(LK_summen.values()))
