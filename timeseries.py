@@ -47,6 +47,7 @@ with open("RKI_COVID19.csv") as f:
                 lks[spalten[Landkreis]][tag] = int(spalten[AnzahlFall])
 alleLKs = lks.keys()
 LK_summen = dict.fromkeys(lks.keys(),0)
+vortag = 0
 with open(".\\output\\covidLK_timeseries.csv", "w+") as f:
     f.write("Datum")
     for lk in alleLKs:
@@ -60,5 +61,6 @@ with open(".\\output\\covidLK_timeseries.csv", "w+") as f:
         for lk in alleLKs:
             f.write(";" + str(LK_summen[lk]))
         f.write("\n")
-        print(dieses_datum.strftime("%d.%m.%Y:"), sum(LK_summen.values()))
+        print(dieses_datum.strftime("%d.%m.%Y:"), sum(LK_summen.values()), f"+{sum(LK_summen.values())-vortag}")
+        vortag = sum(LK_summen.values())
 print("Gesamte Fälle:", sum(LK_summen.values()))
